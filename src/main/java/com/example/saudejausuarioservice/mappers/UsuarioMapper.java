@@ -30,7 +30,7 @@ public class UsuarioMapper {
     }
 
     public static Usuario toEntidade(UsuarioDto usuarioDto) {
-        return new Usuario(usuarioDto.id(), usuarioDto.nome(), usuarioDto.email(), usuarioDto.senha(), TipoUsuarioEnum.PACIENTE,
+        return new Usuario(usuarioDto.id(), usuarioDto.nome(), usuarioDto.email(), usuarioDto.senha(), usuarioDto.tipo(),
                 Objects.isNull(usuarioDto.enderecoUsuario()) ? null : EnderecoUsuarioMapper.toEntidade(usuarioDto.enderecoUsuario()),
                 usuarioDto.celular(), false);
     }
