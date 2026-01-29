@@ -10,11 +10,11 @@ import dtos.requests.AtualizarProprioUsuarioRequest;
 
 import java.util.Objects;
 
-public class AtualizarProprioUsuarioUseCase {
+public class AtualizarUsuarioUseCase {
     private final UsuarioGateway usuarioGateway;
     private final ConferirDisponibilidadeEmailUsuarioUseCase conferirDisponibilidadeEmailUsuarioUseCase;
 
-    public AtualizarProprioUsuarioUseCase(SolicitacaoContaUsuarioGateway solicitacaoContaUsuarioGateway, UsuarioGateway usuarioGateway) {
+    public AtualizarUsuarioUseCase(SolicitacaoContaUsuarioGateway solicitacaoContaUsuarioGateway, UsuarioGateway usuarioGateway) {
         this.usuarioGateway = usuarioGateway;
         this.conferirDisponibilidadeEmailUsuarioUseCase = new ConferirDisponibilidadeEmailUsuarioUseCase(solicitacaoContaUsuarioGateway, usuarioGateway);
     }

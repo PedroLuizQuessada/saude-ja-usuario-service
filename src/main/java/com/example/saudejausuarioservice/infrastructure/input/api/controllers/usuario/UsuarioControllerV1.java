@@ -133,7 +133,7 @@ public class UsuarioControllerV1 {
         if (!Objects.equals(TipoTokenEnum.valueOf((String) jwt.getClaims().get("tipo_token")), TipoTokenEnum.USUARIO))
             throw new TipoTokenException();
         log.info("Usuário {} atualizando seu próprio usuário", jwt.getSubject());
-        UsuarioResponse usuarioResponse = usuarioController.atualizarProprioUsuario(Long.valueOf(jwt.getSubject()), atualizarProprioUsuarioRequest);
+        UsuarioResponse usuarioResponse = usuarioController.atualizarUsuario(Long.valueOf(jwt.getSubject()), atualizarProprioUsuarioRequest);
         log.info("Usuário {} atualizou seu próprio usuário", jwt.getSubject());
 
         return ResponseEntity

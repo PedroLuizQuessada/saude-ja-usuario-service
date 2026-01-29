@@ -49,10 +49,10 @@ public class UsuarioController {
         return UsuarioMapper.toResponse(usuario);
     }
 
-    public UsuarioResponse atualizarProprioUsuario(Long id, AtualizarProprioUsuarioRequest atualizarProprioUsuarioRequest) {
+    public UsuarioResponse atualizarUsuario(Long id, AtualizarProprioUsuarioRequest atualizarProprioUsuarioRequest) {
         SolicitacaoContaUsuarioGateway solicitacaoContaUsuarioGateway = new SolicitacaoContaUsuarioGateway(solicitacaoContaUsuarioDataSource);
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
-        AtualizarProprioUsuarioUseCase useCase = new AtualizarProprioUsuarioUseCase(solicitacaoContaUsuarioGateway, usuarioGateway);
+        AtualizarUsuarioUseCase useCase = new AtualizarUsuarioUseCase(solicitacaoContaUsuarioGateway, usuarioGateway);
 
         Usuario usuario = useCase.executar(id, atualizarProprioUsuarioRequest);
 
