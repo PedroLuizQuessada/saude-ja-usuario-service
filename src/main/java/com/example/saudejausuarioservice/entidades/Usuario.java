@@ -147,6 +147,6 @@ public class Usuario {
 
     private void validarCelular(String celular) {
         if (Objects.isNull(celular) || !regexCelular.matcher(celular).matches())
-            throw new BadArgumentException("Celular inválido.");
+            throw new BadArgumentException("Celular inválido, o formato correto é 12345678901.");
     }
 }
