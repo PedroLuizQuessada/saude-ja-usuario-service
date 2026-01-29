@@ -8,15 +8,15 @@ import java.util.Objects;
 
 @Getter
 public class CredenciaisUsuario {
-    private final String email;
+    private final Long id;
     private final String senha;
     private final TipoUsuarioEnum tipo;
 
-    public CredenciaisUsuario(String email, String senha, TipoUsuarioEnum tipo) {
+    public CredenciaisUsuario(Long id, String senha, TipoUsuarioEnum tipo) {
         String mensagemErro = "";
 
         try {
-            validarEmail(email);
+            validarId(id);
         }
         catch (RuntimeException e) {
             mensagemErro = mensagemErro + " " + e.getMessage();
@@ -39,14 +39,14 @@ public class CredenciaisUsuario {
         if (!mensagemErro.isEmpty())
             throw new BadArgumentException(mensagemErro);
 
-        this.email = email;
+        this.id = id;
         this.senha = senha;
         this.tipo = tipo;
     }
 
-    private void validarEmail(String email) {
-        if (Objects.isNull(email))
-            throw new BadArgumentException("O usuário deve possuir um e-mail.");
+    private void validarId(Long id) {
+        if (Objects.isNull(id))
+            throw new BadArgumentException("O usuário deve possuir um ID.");
     }
 
     private void validarSenha(String senha) {

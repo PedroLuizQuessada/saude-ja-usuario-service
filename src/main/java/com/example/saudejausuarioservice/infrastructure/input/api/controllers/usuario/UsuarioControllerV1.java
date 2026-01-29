@@ -2,7 +2,6 @@ package com.example.saudejausuarioservice.infrastructure.input.api.controllers.u
 
 import com.example.saudejausuarioservice.controllers.UsuarioController;
 import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioDataSource;
-import com.example.saudejausuarioservice.datasources.TokenDataSource;
 import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
 import com.example.saudejausuarioservice.infrastructure.exceptions.TipoTokenException;
 import dtos.requests.AtualizarProprioUsuarioRequest;
@@ -39,8 +38,8 @@ public class UsuarioControllerV1 {
 
     private final UsuarioController usuarioController;
 
-    public UsuarioControllerV1(UsuarioDataSource usuarioDataSource, TokenDataSource tokenDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource) {
-        this.usuarioController = new UsuarioController(usuarioDataSource, tokenDataSource, solicitacaoContaUsuarioDataSource);
+    public UsuarioControllerV1(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource) {
+        this.usuarioController = new UsuarioController(usuarioDataSource, solicitacaoContaUsuarioDataSource);
     }
 
     @Operation(summary = "Cria um usuário",
@@ -100,7 +99,7 @@ public class UsuarioControllerV1 {
     @GetMapping("/credenciais/{email}")
     public ResponseEntity<CredenciaisUsuarioResponse> getCredenciaisUsuario(@AuthenticationPrincipal Jwt jwt,
                                                                             @PathVariable("email") String usuarioEmail) {
-        if (Objects.equals(jwt.getClaims().get("tipo_token"), TipoTokenEnum.SERVICO))
+        if (!Objects.equals(TipoTokenEnum.valueOf((String) jwt.getClaims().get("tipo_token")), TipoTokenEnum.SERVICO))
             throw new TipoTokenException();
         log.info("Serviço {} recuperando credenciais do usuário {}", jwt.getSubject(), usuarioEmail);
         CredenciaisUsuarioResponse credenciaisUsuarioResponse = usuarioController.getCredenciaisUsuario(usuarioEmail);
@@ -131,8 +130,10 @@ public class UsuarioControllerV1 {
     @PutMapping
     public ResponseEntity<UsuarioResponse> atualizarProprioUsuario(@AuthenticationPrincipal Jwt jwt,
                                                                    @RequestBody @Valid AtualizarProprioUsuarioRequest atualizarProprioUsuarioRequest) {
+        if (!Objects.equals(TipoTokenEnum.valueOf((String) jwt.getClaims().get("tipo_token")), TipoTokenEnum.USUARIO))
+            throw new TipoTokenException();
         log.info("Usuário {} atualizando seu próprio usuário", jwt.getSubject());
-        UsuarioResponse usuarioResponse = usuarioController.atualizarProprioUsuario(jwt.getTokenValue(), atualizarProprioUsuarioRequest);
+        UsuarioResponse usuarioResponse = usuarioController.atualizarProprioUsuario(Long.valueOf(jwt.getSubject()), atualizarProprioUsuarioRequest);
         log.info("Usuário {} atualizou seu próprio usuário", jwt.getSubject());
 
         return ResponseEntity
@@ -153,8 +154,10 @@ public class UsuarioControllerV1 {
     })
     @DeleteMapping
     public ResponseEntity<Void> apagarProprioUsuario(@AuthenticationPrincipal Jwt jwt, HttpSession httpSession) {
+        if (!Objects.equals(TipoTokenEnum.valueOf((String) jwt.getClaims().get("tipo_token")), TipoTokenEnum.USUARIO))
+            throw new TipoTokenException();
         log.info("Usuário {} apagando próprio usuário", jwt.getSubject());
-        usuarioController.apagarProprioUsuario(jwt.getTokenValue());
+        usuarioController.apagarUsuario(Long.valueOf(jwt.getSubject()));
         httpSession.invalidate();
         log.info("Usuário {} apagou próprio usuário", jwt.getSubject());
 

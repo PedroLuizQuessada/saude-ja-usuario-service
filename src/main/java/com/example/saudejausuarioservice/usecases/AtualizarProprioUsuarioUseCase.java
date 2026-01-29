@@ -4,7 +4,6 @@ import com.example.saudejausuarioservice.entidades.EnderecoUsuario;
 import com.example.saudejausuarioservice.entidades.Usuario;
 import com.example.saudejausuarioservice.exceptions.BadArgumentException;
 import com.example.saudejausuarioservice.gateways.SolicitacaoContaUsuarioGateway;
-import com.example.saudejausuarioservice.gateways.TokenGateway;
 import com.example.saudejausuarioservice.gateways.UsuarioGateway;
 import com.example.saudejausuarioservice.mappers.UsuarioMapper;
 import dtos.requests.AtualizarProprioUsuarioRequest;
@@ -12,19 +11,16 @@ import dtos.requests.AtualizarProprioUsuarioRequest;
 import java.util.Objects;
 
 public class AtualizarProprioUsuarioUseCase {
-    private final TokenGateway tokenGateway;
     private final UsuarioGateway usuarioGateway;
     private final ConferirDisponibilidadeEmailUsuarioUseCase conferirDisponibilidadeEmailUsuarioUseCase;
 
-    public AtualizarProprioUsuarioUseCase(TokenGateway tokenGateway, SolicitacaoContaUsuarioGateway solicitacaoContaUsuarioGateway, UsuarioGateway usuarioGateway) {
-        this.tokenGateway = tokenGateway;
+    public AtualizarProprioUsuarioUseCase(SolicitacaoContaUsuarioGateway solicitacaoContaUsuarioGateway, UsuarioGateway usuarioGateway) {
         this.usuarioGateway = usuarioGateway;
         this.conferirDisponibilidadeEmailUsuarioUseCase = new ConferirDisponibilidadeEmailUsuarioUseCase(solicitacaoContaUsuarioGateway, usuarioGateway);
     }
 
-    public Usuario executar(String token, AtualizarProprioUsuarioRequest atualizarProprioUsuarioRequest) {
-        String email = tokenGateway.getEmail(token);
-        Usuario usuario = usuarioGateway.getUsuarioByEmail(email);
+    public Usuario executar(Long id, AtualizarProprioUsuarioRequest atualizarProprioUsuarioRequest) {
+        Usuario usuario = usuarioGateway.getUsuarioById(id);
         EnderecoUsuario enderecoUsuario = usuario.getEnderecoUsuario();
 
         if (Objects.isNull(atualizarProprioUsuarioRequest.enderecoUsuario()))

@@ -1,12 +1,10 @@
 package com.example.saudejausuarioservice.controllers;
 
 import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioDataSource;
-import com.example.saudejausuarioservice.datasources.TokenDataSource;
 import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
 import com.example.saudejausuarioservice.entidades.CredenciaisUsuario;
 import com.example.saudejausuarioservice.entidades.Usuario;
 import com.example.saudejausuarioservice.gateways.SolicitacaoContaUsuarioGateway;
-import com.example.saudejausuarioservice.gateways.TokenGateway;
 import com.example.saudejausuarioservice.gateways.UsuarioGateway;
 import com.example.saudejausuarioservice.mappers.CredenciaisUsuarioMapper;
 import com.example.saudejausuarioservice.mappers.UsuarioMapper;
@@ -18,12 +16,10 @@ import dtos.responses.UsuarioResponse;
 
 public class UsuarioController {
     private final UsuarioDataSource usuarioDataSource;
-    private final TokenDataSource tokenDataSource;
     private final SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource;
 
-    public UsuarioController(UsuarioDataSource usuarioDataSource, TokenDataSource tokenDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource) {
+    public UsuarioController(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource) {
         this.usuarioDataSource = usuarioDataSource;
-        this.tokenDataSource = tokenDataSource;
         this.solicitacaoContaUsuarioDataSource = solicitacaoContaUsuarioDataSource;
     }
 
@@ -31,13 +27,6 @@ public class UsuarioController {
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
         ApagarUsuarioUseCase useCase = new ApagarUsuarioUseCase(usuarioGateway);
         useCase.executar(id);
-    }
-
-    public void apagarProprioUsuario(String token) {
-        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
-        UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
-        ApagarProprioUsuarioUseCase useCase = new ApagarProprioUsuarioUseCase(tokenGateway, usuarioGateway);
-        useCase.executar(token);
     }
 
     public CredenciaisUsuarioResponse getCredenciaisUsuario(String email) {
@@ -60,13 +49,12 @@ public class UsuarioController {
         return UsuarioMapper.toResponse(usuario);
     }
 
-    public UsuarioResponse atualizarProprioUsuario(String token, AtualizarProprioUsuarioRequest atualizarProprioUsuarioRequest) {
-        TokenGateway tokenGateway = new TokenGateway(tokenDataSource);
+    public UsuarioResponse atualizarProprioUsuario(Long id, AtualizarProprioUsuarioRequest atualizarProprioUsuarioRequest) {
         SolicitacaoContaUsuarioGateway solicitacaoContaUsuarioGateway = new SolicitacaoContaUsuarioGateway(solicitacaoContaUsuarioDataSource);
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
-        AtualizarProprioUsuarioUseCase useCase = new AtualizarProprioUsuarioUseCase(tokenGateway, solicitacaoContaUsuarioGateway, usuarioGateway);
+        AtualizarProprioUsuarioUseCase useCase = new AtualizarProprioUsuarioUseCase(solicitacaoContaUsuarioGateway, usuarioGateway);
 
-        Usuario usuario = useCase.executar(token, atualizarProprioUsuarioRequest);
+        Usuario usuario = useCase.executar(id, atualizarProprioUsuarioRequest);
 
         return UsuarioMapper.toResponse(usuario);
     }
