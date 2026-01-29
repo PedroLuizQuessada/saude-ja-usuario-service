@@ -109,4 +109,13 @@ public class SolicitacaoContaUsuarioRepoJpaImpl implements SolicitacaoContaUsuar
         SolicitacaoContaUsuarioJpa solicitacaoContaUsuario = solicitacaoContaUsuarioJpaDtoMapper.toJpa(solicitacaoContaUsuarioDto);
         entityManager.merge(solicitacaoContaUsuario);
     }
+
+    @Override
+    @Transactional
+    public void deleteSolicitacoesContaUsuarioVencidas() {
+        Query query = entityManager.createQuery("DELETE FROM SolicitacaoCriacaoUsuarioPacienteJpa solicitacaoCriacaoUsuarioPaciente WHERE solicitacaoCriacaoUsuarioPaciente.solicitacaoContaUsuario.validade < CURRENT_TIMESTAMP");
+        query.executeUpdate();
+        query = entityManager.createQuery("DELETE FROM SolicitacaoTrocaSenhaUsuarioJpa solicitacaoTrocaSenhaUsuario WHERE solicitacaoTrocaSenhaUsuario.solicitacaoContaUsuario.validade < CURRENT_TIMESTAMP");
+        query.executeUpdate();
+    }
 }

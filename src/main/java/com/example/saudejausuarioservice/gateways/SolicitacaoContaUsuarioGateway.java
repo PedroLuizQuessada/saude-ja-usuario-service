@@ -62,4 +62,8 @@ public class SolicitacaoContaUsuarioGateway {
     public void consumirSolicitacaoContaUsuario(SolicitacaoContaUsuarioDto solicitacaoContaUsuarioDto) {
         solicitacaoContaUsuarioDataSource.consumirSolicitacaoContaUsuario(solicitacaoContaUsuarioDto);
     }
+
+    public void apagarSolicitacoesContaUsuarioVencidas() {
+        solicitacaoContaUsuarioDataSource.deleteSolicitacoesContaUsuarioVencidas();
+    }
 }

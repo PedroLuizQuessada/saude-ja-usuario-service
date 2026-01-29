@@ -14,4 +14,5 @@ public interface SolicitacaoContaUsuarioDataSource {
     Optional<SolicitacaoTrocaSenhaUsuarioDto> getSolicitacaoTrocaSenhaUsuarioById(Long id);
     Optional<SolicitacaoCriacaoUsuarioPacienteDto> getSolicitacaoCriacaoUsuarioPacienteById(Long id);
     void consumirSolicitacaoContaUsuario(SolicitacaoContaUsuarioDto solicitacaoContaUsuarioDto);
+    void deleteSolicitacoesContaUsuarioVencidas();
 }

@@ -9,10 +9,7 @@ import com.example.saudejausuarioservice.gateways.SolicitacaoContaUsuarioGateway
 import com.example.saudejausuarioservice.gateways.UsuarioGateway;
 import com.example.saudejausuarioservice.mappers.SolicitacaoContaUsuarioMapper;
 import com.example.saudejausuarioservice.mappers.UsuarioMapper;
-import com.example.saudejausuarioservice.usecases.CriarUsuarioPacienteUseCase;
-import com.example.saudejausuarioservice.usecases.SolicitarCriacaoUsuarioPacienteUseCase;
-import com.example.saudejausuarioservice.usecases.SolicitarTrocaSenhaUsuarioUseCase;
-import com.example.saudejausuarioservice.usecases.TrocarSenhaUsuarioUseCase;
+import com.example.saudejausuarioservice.usecases.*;
 import dtos.requests.ConsumirSolicitacaoRequest;
 import dtos.requests.SolicitacaoTrocaSenhaUsuarioRequest;
 import dtos.requests.SolicitacaoCriacaoUsuarioPacienteRequest;
@@ -65,5 +62,12 @@ public class SolicitacaoContaUsuarioController {
 
         TrocarSenhaUsuarioUseCase useCase = new TrocarSenhaUsuarioUseCase(solicitacaoContaUsuarioGateway, usuarioGateway);
         useCase.executar(id, consumirSolicitacaoRequest);
+    }
+
+    public void apagarSolicitacoesContaUsuarioVencidas() {
+        SolicitacaoContaUsuarioGateway solicitacaoContaUsuarioGateway = new  SolicitacaoContaUsuarioGateway(solicitacaoContaUsuarioDataSource);
+        ApagarSolicitacoesContaUsuarioVencidasUseCase useCase = new ApagarSolicitacoesContaUsuarioVencidasUseCase(solicitacaoContaUsuarioGateway);
+
+        useCase.executar();
     }
 }
