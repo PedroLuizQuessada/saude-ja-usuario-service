@@ -22,11 +22,11 @@ public class SolicitacaoTrocaSenhaUsuarioJpa {
     @Column(nullable = false, name = "nova_senha")
     private String novaSenha;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(unique = true, nullable = false, referencedColumnName = "id", name = "solicitacao_conta_usuario")
     private SolicitacaoContaUsuarioJpa solicitacaoContaUsuario;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(unique = true, nullable = false, referencedColumnName = "id")
     private UsuarioJpa usuario;
 

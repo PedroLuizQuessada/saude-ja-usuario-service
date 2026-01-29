@@ -19,7 +19,7 @@ public class SolicitacaoCriacaoUsuarioPacienteJpa {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(unique = true, nullable = false, referencedColumnName = "id", name = "solicitacao_conta_usuario")
     private SolicitacaoContaUsuarioJpa solicitacaoContaUsuario;
 
@@ -32,7 +32,7 @@ public class SolicitacaoCriacaoUsuarioPacienteJpa {
     @Column(nullable = false)
     private String senha;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(unique = true, nullable = false, referencedColumnName = "id", name = "solicitacao_criacao_usuario_paciente_endereco")
     private SolicitacaoCriacaoUsuarioPacienteEnderecoJpa solicitacaoCriacaoUsuarioPacienteEndereco;
 
