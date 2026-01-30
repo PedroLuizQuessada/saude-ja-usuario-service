@@ -1,6 +1,7 @@
 package com.example.saudejausuarioservice.infrastructure.input.api.controllers.solicitacaocontausuario;
 
 import com.example.saudejausuarioservice.controllers.SolicitacaoContaUsuarioController;
+import com.example.saudejausuarioservice.datasources.NotificacaoDataSource;
 import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioDataSource;
 import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
 import dtos.requests.ConsumirSolicitacaoRequest;
@@ -32,8 +33,8 @@ public class SolicitacaoContaUsuarioControllerV1 {
 
     private final SolicitacaoContaUsuarioController solicitacaoContaUsuarioController;
 
-    public SolicitacaoContaUsuarioControllerV1(SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, UsuarioDataSource usuarioDataSource) {
-        this.solicitacaoContaUsuarioController = new SolicitacaoContaUsuarioController(solicitacaoContaUsuarioDataSource, usuarioDataSource);
+    public SolicitacaoContaUsuarioControllerV1(SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, UsuarioDataSource usuarioDataSource, NotificacaoDataSource notificacaoDataSource) {
+        this.solicitacaoContaUsuarioController = new SolicitacaoContaUsuarioController(solicitacaoContaUsuarioDataSource, usuarioDataSource, notificacaoDataSource);
     }
 
     @Operation(summary = "Solicita a criação de um usuário paciente",

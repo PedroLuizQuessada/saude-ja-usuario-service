@@ -2,6 +2,7 @@ package com.example.saudejausuarioservice.infrastructure.input.api.controllers.u
 
 import com.example.saudejausuarioservice.controllers.UsuarioController;
 import com.example.saudejausuarioservice.datasources.FichaPacienteDataSource;
+import com.example.saudejausuarioservice.datasources.NotificacaoDataSource;
 import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioDataSource;
 import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
 import com.example.saudejausuarioservice.infrastructure.exceptions.TipoTokenException;
@@ -39,8 +40,8 @@ public class UsuarioControllerV1 {
 
     private final UsuarioController usuarioController;
 
-    public UsuarioControllerV1(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, FichaPacienteDataSource fichaPacienteDataSource) {
-        this.usuarioController = new UsuarioController(usuarioDataSource, solicitacaoContaUsuarioDataSource, fichaPacienteDataSource);
+    public UsuarioControllerV1(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, FichaPacienteDataSource fichaPacienteDataSource, NotificacaoDataSource notificacaoDataSource) {
+        this.usuarioController = new UsuarioController(usuarioDataSource, solicitacaoContaUsuarioDataSource, fichaPacienteDataSource, notificacaoDataSource);
     }
 
     @Operation(summary = "Cria um usuário",

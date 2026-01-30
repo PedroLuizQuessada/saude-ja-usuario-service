@@ -1,6 +1,7 @@
 package com.example.saudejausuarioservice.infrastructure.rotinas.springscheduling.jobs;
 
 import com.example.saudejausuarioservice.controllers.SolicitacaoContaUsuarioController;
+import com.example.saudejausuarioservice.datasources.NotificacaoDataSource;
 import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioDataSource;
 import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +16,11 @@ public class ApagarSolicitacoesContaUsuarioVencidasJob {
 
     private final SolicitacaoContaUsuarioController solicitacaoContaUsuarioController;
 
-    public ApagarSolicitacoesContaUsuarioVencidasJob(SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, UsuarioDataSource usuarioDataSource) {
-        this.solicitacaoContaUsuarioController = new SolicitacaoContaUsuarioController(solicitacaoContaUsuarioDataSource, usuarioDataSource);
+    public ApagarSolicitacoesContaUsuarioVencidasJob(SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, UsuarioDataSource usuarioDataSource, NotificacaoDataSource notificacaoDataSource) {
+        this.solicitacaoContaUsuarioController = new SolicitacaoContaUsuarioController(solicitacaoContaUsuarioDataSource, usuarioDataSource, notificacaoDataSource);
     }
 
-    @Scheduled(cron = "0 40 11 ? * THU", zone = "America/Sao_Paulo")
+    @Scheduled(cron = "0 0 9 ? * MON", zone = "America/Sao_Paulo")
     public void apagarSolicitacoesContaUsuarioVencidas() {
         log.info("Apagando solicitações de conta de usuários vencidas");
         solicitacaoContaUsuarioController.apagarSolicitacoesContaUsuarioVencidas();

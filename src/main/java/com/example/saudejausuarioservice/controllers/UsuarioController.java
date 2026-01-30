@@ -1,11 +1,13 @@
 package com.example.saudejausuarioservice.controllers;
 
 import com.example.saudejausuarioservice.datasources.FichaPacienteDataSource;
+import com.example.saudejausuarioservice.datasources.NotificacaoDataSource;
 import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioDataSource;
 import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
 import com.example.saudejausuarioservice.entidades.CredenciaisUsuario;
 import com.example.saudejausuarioservice.entidades.Usuario;
 import com.example.saudejausuarioservice.gateways.FichaPacienteGateway;
+import com.example.saudejausuarioservice.gateways.NotificacaoGateway;
 import com.example.saudejausuarioservice.gateways.SolicitacaoContaUsuarioGateway;
 import com.example.saudejausuarioservice.gateways.UsuarioGateway;
 import com.example.saudejausuarioservice.mappers.CredenciaisUsuarioMapper;
@@ -20,17 +22,21 @@ public class UsuarioController {
     private final UsuarioDataSource usuarioDataSource;
     private final SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource;
     private final FichaPacienteDataSource fichaPacienteDataSource;
+    private final NotificacaoDataSource notificacaoDataSource;
 
-    public UsuarioController(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, FichaPacienteDataSource fichaPacienteDataSource) {
+    public UsuarioController(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, FichaPacienteDataSource fichaPacienteDataSource, NotificacaoDataSource notificacaoDataSource) {
         this.usuarioDataSource = usuarioDataSource;
         this.solicitacaoContaUsuarioDataSource = solicitacaoContaUsuarioDataSource;
         this.fichaPacienteDataSource = fichaPacienteDataSource;
+        this.notificacaoDataSource = notificacaoDataSource;
     }
 
     public void apagarUsuario(Long id) {
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
         FichaPacienteGateway fichaPacienteGateway = new FichaPacienteGateway(fichaPacienteDataSource);
-        ApagarUsuarioUseCase useCase = new ApagarUsuarioUseCase(usuarioGateway, fichaPacienteGateway);
+        NotificacaoGateway notificacaoGateway = new NotificacaoGateway(notificacaoDataSource);
+
+        ApagarUsuarioUseCase useCase = new ApagarUsuarioUseCase(usuarioGateway, fichaPacienteGateway, notificacaoGateway);
         useCase.executar(id);
     }
 
@@ -46,8 +52,9 @@ public class UsuarioController {
     public UsuarioResponse criarUsuario(CriarUsuarioRequest criarUsuarioRequest) {
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
         SolicitacaoContaUsuarioGateway solicitacaoContaUsuarioGateway = new SolicitacaoContaUsuarioGateway(solicitacaoContaUsuarioDataSource);
+        NotificacaoGateway notificacaoGateway = new NotificacaoGateway(notificacaoDataSource);
 
-        CriarUsuarioUseCase useCase = new CriarUsuarioUseCase(usuarioGateway, solicitacaoContaUsuarioGateway);
+        CriarUsuarioUseCase useCase = new CriarUsuarioUseCase(usuarioGateway, solicitacaoContaUsuarioGateway, notificacaoGateway);
 
         Usuario usuario = useCase.executar(criarUsuarioRequest);
 
