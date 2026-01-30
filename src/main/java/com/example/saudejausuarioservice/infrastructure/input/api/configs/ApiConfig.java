@@ -33,7 +33,7 @@ public class ApiConfig {
     private CustomAccessDeniedHandler customAccessDeniedHandler;
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) {
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(WHITE_LIST_URL).permitAll()

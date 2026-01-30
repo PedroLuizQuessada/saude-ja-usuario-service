@@ -1,9 +1,11 @@
 package com.example.saudejausuarioservice.controllers;
 
+import com.example.saudejausuarioservice.datasources.FichaPacienteDataSource;
 import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioDataSource;
 import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
 import com.example.saudejausuarioservice.entidades.CredenciaisUsuario;
 import com.example.saudejausuarioservice.entidades.Usuario;
+import com.example.saudejausuarioservice.gateways.FichaPacienteGateway;
 import com.example.saudejausuarioservice.gateways.SolicitacaoContaUsuarioGateway;
 import com.example.saudejausuarioservice.gateways.UsuarioGateway;
 import com.example.saudejausuarioservice.mappers.CredenciaisUsuarioMapper;
@@ -17,15 +19,18 @@ import dtos.responses.UsuarioResponse;
 public class UsuarioController {
     private final UsuarioDataSource usuarioDataSource;
     private final SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource;
+    private final FichaPacienteDataSource fichaPacienteDataSource;
 
-    public UsuarioController(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource) {
+    public UsuarioController(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, FichaPacienteDataSource fichaPacienteDataSource) {
         this.usuarioDataSource = usuarioDataSource;
         this.solicitacaoContaUsuarioDataSource = solicitacaoContaUsuarioDataSource;
+        this.fichaPacienteDataSource = fichaPacienteDataSource;
     }
 
     public void apagarUsuario(Long id) {
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
-        ApagarUsuarioUseCase useCase = new ApagarUsuarioUseCase(usuarioGateway);
+        FichaPacienteGateway fichaPacienteGateway = new FichaPacienteGateway(fichaPacienteDataSource);
+        ApagarUsuarioUseCase useCase = new ApagarUsuarioUseCase(usuarioGateway, fichaPacienteGateway);
         useCase.executar(id);
     }
 

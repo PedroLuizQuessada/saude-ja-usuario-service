@@ -2,7 +2,9 @@ package com.example.saudejausuarioservice.infrastructure.input.api.security;
 
 import com.example.saudejausuarioservice.exceptions.BadArgumentException;
 import com.example.saudejausuarioservice.exceptions.NaoEncontradoException;
+import com.example.saudejausuarioservice.infrastructure.exceptions.ForbiddenException;
 import com.example.saudejausuarioservice.infrastructure.exceptions.TipoTokenException;
+import com.example.saudejausuarioservice.infrastructure.exceptions.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.*;
@@ -25,7 +27,13 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
-    @ExceptionHandler(value = { TipoTokenException.class })
+    @ExceptionHandler(value = { UnauthorizedException.class })
+    public ProblemDetail handleUnauthorized(RuntimeException ex) {
+        log.error(ex.getMessage(), ex);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
+    @ExceptionHandler(value = { TipoTokenException.class, ForbiddenException.class})
     public ProblemDetail handleForbidden(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
         return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, ex.getMessage());
