@@ -1,6 +1,7 @@
 package com.example.saudejausuarioservice.usecases;
 
 import com.example.saudejausuarioservice.entidades.Usuario;
+import com.example.saudejausuarioservice.exceptions.NaoEncontradoException;
 import com.example.saudejausuarioservice.gateways.FichaPacienteGateway;
 import com.example.saudejausuarioservice.gateways.UsuarioGateway;
 import enums.TipoUsuarioEnum;
@@ -20,6 +21,9 @@ public class ApagarUsuarioUseCase {
         Usuario usuario = usuarioGateway.getUsuarioById(id);
         usuarioGateway.deleteUsuarioById(usuario.getId());
         if (Objects.equals(usuario.getTipo(), TipoUsuarioEnum.PACIENTE))
-            fichaPacienteGateway.apagarFichaPacienteByPacienteId(usuario.getId());
+            try {
+                fichaPacienteGateway.apagarFichaPacienteByPacienteId(usuario.getId());
+            }
+            catch (NaoEncontradoException ignored) {}
     }
 }
