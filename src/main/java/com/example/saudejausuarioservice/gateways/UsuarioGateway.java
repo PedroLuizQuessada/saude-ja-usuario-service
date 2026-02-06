@@ -2,10 +2,13 @@ package com.example.saudejausuarioservice.gateways;
 
 import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
 import com.example.saudejausuarioservice.dtos.UsuarioDto;
+import com.example.saudejausuarioservice.dtos.UsuarioEmailDtoPage;
 import com.example.saudejausuarioservice.entidades.Usuario;
+import com.example.saudejausuarioservice.entidades.UsuarioEmailPage;
 import com.example.saudejausuarioservice.exceptions.NaoEncontradoException;
 import com.example.saudejausuarioservice.mappers.UsuarioMapper;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UsuarioGateway {
@@ -40,5 +43,10 @@ public class UsuarioGateway {
 
     public void deleteUsuarioById(Long id) {
         usuarioDataSource.deleteUsuarioById(id);
+    }
+
+    public UsuarioEmailPage getUsuarioPacienteEmailFromId(int page, int size, List<Long> ids) {
+        UsuarioEmailDtoPage usuarioEmailDtoPage = usuarioDataSource.getUsuarioPacienteEmailFromId(page, size, ids);
+        return new UsuarioEmailPage(usuarioEmailDtoPage.getPage(), usuarioEmailDtoPage.getSize(), usuarioEmailDtoPage.getContent());
     }
 }

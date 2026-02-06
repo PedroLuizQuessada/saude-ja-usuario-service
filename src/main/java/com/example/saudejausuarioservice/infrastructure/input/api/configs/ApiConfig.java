@@ -25,8 +25,6 @@ public class ApiConfig {
             "/configuration/security", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
             "/api/test/**", "/api/v1/solicitacoes-conta/**" };
 
-    private static final String[] ADMIN_LIST_URL = { "/api/v1/usuarios/*" };
-
     @Autowired
     private CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
@@ -41,7 +39,7 @@ public class ApiConfig {
 
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(WHITE_LIST_URL).permitAll()
-                                .requestMatchers(ADMIN_LIST_URL).hasAuthority(TipoUsuarioEnum.ADMIN.name())
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/usuarios/*").hasAuthority(TipoUsuarioEnum.ADMIN.name())
                                 .requestMatchers(HttpMethod.POST, "/api/v1/usuarios").hasAuthority(TipoUsuarioEnum.ADMIN.name())
                                 .anyRequest().authenticated())
 

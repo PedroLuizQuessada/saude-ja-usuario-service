@@ -6,6 +6,7 @@ import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioData
 import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
 import com.example.saudejausuarioservice.entidades.CredenciaisUsuario;
 import com.example.saudejausuarioservice.entidades.Usuario;
+import com.example.saudejausuarioservice.entidades.UsuarioEmailPage;
 import com.example.saudejausuarioservice.gateways.FichaPacienteGateway;
 import com.example.saudejausuarioservice.gateways.NotificacaoGateway;
 import com.example.saudejausuarioservice.gateways.SolicitacaoContaUsuarioGateway;
@@ -15,7 +16,9 @@ import com.example.saudejausuarioservice.mappers.UsuarioMapper;
 import com.example.saudejausuarioservice.usecases.*;
 import dtos.requests.AtualizarProprioUsuarioRequest;
 import dtos.requests.CriarUsuarioRequest;
+import dtos.requests.PacienteIdPageRequest;
 import dtos.responses.CredenciaisUsuarioResponse;
+import dtos.responses.UsuarioEmailPageResponse;
 import dtos.responses.UsuarioResponse;
 
 public class UsuarioController {
@@ -69,5 +72,14 @@ public class UsuarioController {
         Usuario usuario = useCase.executar(id, atualizarProprioUsuarioRequest);
 
         return UsuarioMapper.toResponse(usuario);
+    }
+
+    public UsuarioEmailPageResponse getUsuarioPacienteEmailFromId(PacienteIdPageRequest pacienteIdPageRequest) {
+        UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
+        GetUsuarioPacienteEmailFromIdUseCase useCase = new GetUsuarioPacienteEmailFromIdUseCase(usuarioGateway);
+
+        UsuarioEmailPage usuarioEmailPage = useCase.executar(pacienteIdPageRequest);
+
+        return new UsuarioEmailPageResponse(usuarioEmailPage.getPage(), usuarioEmailPage.getSize(), usuarioEmailPage.getContent());
     }
 }
