@@ -27,9 +27,12 @@ public class FichaPacienteRestClientImpl implements FichaPacienteDataSource {
 
     private final AutenticacaoController autenticacaoController;
 
-    public FichaPacienteRestClientImpl(RestClient client, AutenticacaoDataSource autenticacaoDataSource) {
+    private final ClientResponseService clientResponseService;
+
+    public FichaPacienteRestClientImpl(RestClient client, AutenticacaoDataSource autenticacaoDataSource, ClientResponseService clientResponseService) {
         this.client = client;
         this.autenticacaoController = new AutenticacaoController(autenticacaoDataSource);
+        this.clientResponseService = clientResponseService;
     }
 
     @Override
@@ -46,13 +49,16 @@ public class FichaPacienteRestClientImpl implements FichaPacienteDataSource {
                             throw new ForbiddenException();
                         if (res.getStatusCode().equals(HttpStatus.NOT_FOUND))
                             throw new NaoEncontradoException(String.format("Ficha de paciente %d não encontrado", idPaciente));
-                        else
-                            throw new RuntimeException("Falha no serviço de fichas de paciente (ficha-paciente-service).");
+                        else {
+                            String body = clientResponseService.getResponseBody(res);
+                            throw new RuntimeException("Falha no serviço de fichas de paciente (ficha-paciente-service). Corpo: " + body);
+                        }
                     }
             )
             .onStatus(HttpStatusCode::is5xxServerError, (req, res) ->
                     {
-                        throw new RuntimeException("Falha no serviço de fichas de paciente (ficha-paciente-service).");
+                        String body = clientResponseService.getResponseBody(res);
+                        throw new RuntimeException("Falha no serviço de fichas de paciente (ficha-paciente-service). Corpo: " + body);
                     }
             )
             .toEntity(Void.class);
