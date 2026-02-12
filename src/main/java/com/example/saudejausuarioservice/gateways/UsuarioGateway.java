@@ -49,4 +49,9 @@ public class UsuarioGateway {
         UsuarioEmailDtoPage usuarioEmailDtoPage = usuarioDataSource.getUsuarioPacienteEmailFromId(page, size, ids);
         return new UsuarioEmailPage(usuarioEmailDtoPage.getPage(), usuarioEmailDtoPage.getSize(), usuarioEmailDtoPage.getContent());
     }
+
+    public UsuarioEmailPage getUsuarioProfissionalSaudeEmailFromId(int page, int size, List<Long> ids) {
+        UsuarioEmailDtoPage usuarioEmailDtoPage = usuarioDataSource.getUsuarioProfissionalSaudeEmailFromId(page, size, ids);
+        return new UsuarioEmailPage(usuarioEmailDtoPage.getPage(), usuarioEmailDtoPage.getSize(), usuarioEmailDtoPage.getContent());
+    }
 }

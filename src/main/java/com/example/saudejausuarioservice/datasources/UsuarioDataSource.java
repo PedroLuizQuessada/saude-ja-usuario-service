@@ -13,4 +13,5 @@ public interface UsuarioDataSource {
     UsuarioDto saveUsuario(UsuarioDto usuarioDto);
     void deleteUsuarioById(Long id);
     UsuarioEmailDtoPage getUsuarioPacienteEmailFromId(int page, int size, List<Long> ids);
+    UsuarioEmailDtoPage getUsuarioProfissionalSaudeEmailFromId(int page, int size, List<Long> ids);
 }

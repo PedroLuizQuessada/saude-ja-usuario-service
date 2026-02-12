@@ -92,4 +92,21 @@ public class UsuarioRepoJpaImpl implements UsuarioDataSource {
 
         return new UsuarioEmailDtoPage(page, size, query.getResultList());
     }
+
+    @Override
+    public UsuarioEmailDtoPage getUsuarioProfissionalSaudeEmailFromId(int page, int size, List<Long> ids) {
+        if (Objects.isNull(ids) || ids.isEmpty())
+            return new UsuarioEmailDtoPage(page, size, List.of());
+
+        int offset = Math.max(0, page) * Math.max(1, size);
+
+        String jpql = "SELECT usuario.email FROM UsuarioJpa usuario WHERE usuario.id IN (:ids) AND usuario.tipo IN (:tipoPaciente) ORDER BY usuario.id";
+        TypedQuery<String> query = entityManager.createQuery(jpql, String.class)
+                .setFirstResult(offset)
+                .setMaxResults(size);
+        query.setParameter("ids", ids);
+        query.setParameter("tipoPaciente", List.of(TipoUsuarioEnum.MEDICO, TipoUsuarioEnum.ENFERMEIRO, TipoUsuarioEnum.AGENTE_COMUNITARIO, TipoUsuarioEnum.GERENTE));
+
+        return new UsuarioEmailDtoPage(page, size, query.getResultList());
+    }
 }

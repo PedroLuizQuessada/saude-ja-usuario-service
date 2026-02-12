@@ -89,7 +89,7 @@ public class SolicitacaoContaUsuarioControllerV1 {
                 .body(solicitacaoTrocaSenhaUsuarioResponse);
     }
 
-    @Operation(summary = "Consume solicitação de criação de um usuário paciente",
+    @Operation(summary = "Consome solicitação de criação de um usuário paciente",
             description = "Endpoint liberado para usuários não autenticados")
     @ApiResponses({
             @ApiResponse(responseCode = "201",
@@ -117,7 +117,7 @@ public class SolicitacaoContaUsuarioControllerV1 {
                 .body(usuarioResponse);
     }
 
-    @Operation(summary = "Consume solicitação de troca de senha de um usuário",
+    @Operation(summary = "Consome solicitação de troca de senha de um usuário",
             description = "Endpoint liberado para usuários não autenticados")
     @ApiResponses({
             @ApiResponse(responseCode = "204",

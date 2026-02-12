@@ -9,6 +9,7 @@ import com.example.saudejausuarioservice.infrastructure.exceptions.TipoTokenExce
 import dtos.requests.AtualizarProprioUsuarioRequest;
 import dtos.requests.CriarUsuarioRequest;
 import dtos.requests.PacienteIdPageRequest;
+import dtos.requests.ProfissionalSaudeIdPageRequest;
 import dtos.responses.CredenciaisUsuarioResponse;
 import dtos.responses.UsuarioEmailPageResponse;
 import dtos.responses.UsuarioResponse;
@@ -213,7 +214,7 @@ public class UsuarioControllerV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PostMapping("/emails")
+    @PostMapping("/pacientes/emails")
     public ResponseEntity<UsuarioEmailPageResponse> getUsuarioPacienteEmailFromId(@AuthenticationPrincipal Jwt jwt,
                                                                                     @RequestBody @Valid PacienteIdPageRequest pacienteIdPageRequest) {
         if (!Objects.equals(TipoTokenEnum.valueOf((String) jwt.getClaims().get("tipo_token")), TipoTokenEnum.SERVICO))
@@ -221,6 +222,37 @@ public class UsuarioControllerV1 {
         log.info("Serviço {} recuperando e-mails de usuários pacientes através de seus ID's", jwt.getSubject());
         UsuarioEmailPageResponse usuarioEmailPageResponse = usuarioController.getUsuarioPacienteEmailFromId(pacienteIdPageRequest);
         log.info("Serviço {} recuperou e-mails de usuários pacientes através de seus ID's", jwt.getSubject());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(usuarioEmailPageResponse);
+    }
+
+    @Operation(summary = "Recupera os e-mails de usuários profissionais da saúde através de seus ID's",
+            description = "Endpoint restrito a serviços",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "E-mails recuperados com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UsuarioEmailPageResponse.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Token autenticado não é de serviço",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PostMapping("/profissionais-saude/emails")
+    public ResponseEntity<UsuarioEmailPageResponse> getUsuarioProfissionalSaudeEmailFromId(@AuthenticationPrincipal Jwt jwt,
+                                                                                  @RequestBody @Valid ProfissionalSaudeIdPageRequest profissionalSaudeIdPageRequest) {
+        if (!Objects.equals(TipoTokenEnum.valueOf((String) jwt.getClaims().get("tipo_token")), TipoTokenEnum.SERVICO))
+            throw new TipoTokenException();
+        log.info("Serviço {} recuperando e-mails de usuários profissionais da saúde através de seus ID's", jwt.getSubject());
+        UsuarioEmailPageResponse usuarioEmailPageResponse = usuarioController.getUsuarioProfissionalSaudeEmailFromId(profissionalSaudeIdPageRequest);
+        log.info("Serviço {} recuperou e-mails de usuários profissionais da saúde através de seus ID's", jwt.getSubject());
 
         return ResponseEntity
                 .status(HttpStatus.OK)

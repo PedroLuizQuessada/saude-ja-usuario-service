@@ -17,6 +17,7 @@ import com.example.saudejausuarioservice.usecases.*;
 import dtos.requests.AtualizarProprioUsuarioRequest;
 import dtos.requests.CriarUsuarioRequest;
 import dtos.requests.PacienteIdPageRequest;
+import dtos.requests.ProfissionalSaudeIdPageRequest;
 import dtos.responses.CredenciaisUsuarioResponse;
 import dtos.responses.UsuarioEmailPageResponse;
 import dtos.responses.UsuarioResponse;
@@ -79,6 +80,15 @@ public class UsuarioController {
         GetUsuarioPacienteEmailFromIdUseCase useCase = new GetUsuarioPacienteEmailFromIdUseCase(usuarioGateway);
 
         UsuarioEmailPage usuarioEmailPage = useCase.executar(pacienteIdPageRequest);
+
+        return new UsuarioEmailPageResponse(usuarioEmailPage.getPage(), usuarioEmailPage.getSize(), usuarioEmailPage.getContent());
+    }
+
+    public UsuarioEmailPageResponse getUsuarioProfissionalSaudeEmailFromId(ProfissionalSaudeIdPageRequest profissionalSaudeIdPageRequest) {
+        UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
+        GetUsuarioProfissionalSaudeEmailFromIdUseCase useCase = new GetUsuarioProfissionalSaudeEmailFromIdUseCase(usuarioGateway);
+
+        UsuarioEmailPage usuarioEmailPage = useCase.executar(profissionalSaudeIdPageRequest);
 
         return new UsuarioEmailPageResponse(usuarioEmailPage.getPage(), usuarioEmailPage.getSize(), usuarioEmailPage.getContent());
     }
