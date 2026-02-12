@@ -1,10 +1,7 @@
 package com.example.saudejausuarioservice.infrastructure.input.api.controllers.usuario;
 
 import com.example.saudejausuarioservice.controllers.UsuarioController;
-import com.example.saudejausuarioservice.datasources.FichaPacienteDataSource;
-import com.example.saudejausuarioservice.datasources.NotificacaoDataSource;
-import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioDataSource;
-import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
+import com.example.saudejausuarioservice.datasources.*;
 import com.example.saudejausuarioservice.infrastructure.exceptions.TipoTokenException;
 import dtos.requests.AtualizarProprioUsuarioRequest;
 import dtos.requests.CriarUsuarioRequest;
@@ -43,8 +40,8 @@ public class UsuarioControllerV1 {
 
     private final UsuarioController usuarioController;
 
-    public UsuarioControllerV1(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, FichaPacienteDataSource fichaPacienteDataSource, NotificacaoDataSource notificacaoDataSource) {
-        this.usuarioController = new UsuarioController(usuarioDataSource, solicitacaoContaUsuarioDataSource, fichaPacienteDataSource, notificacaoDataSource);
+    public UsuarioControllerV1(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, FichaPacienteDataSource fichaPacienteDataSource, PostoSaudeDataSource postoSaudeDataSource, NotificacaoDataSource notificacaoDataSource) {
+        this.usuarioController = new UsuarioController(usuarioDataSource, solicitacaoContaUsuarioDataSource, fichaPacienteDataSource, postoSaudeDataSource, notificacaoDataSource);
     }
 
     @Operation(summary = "Cria um usuário",

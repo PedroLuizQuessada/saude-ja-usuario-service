@@ -1,16 +1,10 @@
 package com.example.saudejausuarioservice.controllers;
 
-import com.example.saudejausuarioservice.datasources.FichaPacienteDataSource;
-import com.example.saudejausuarioservice.datasources.NotificacaoDataSource;
-import com.example.saudejausuarioservice.datasources.SolicitacaoContaUsuarioDataSource;
-import com.example.saudejausuarioservice.datasources.UsuarioDataSource;
+import com.example.saudejausuarioservice.datasources.*;
 import com.example.saudejausuarioservice.entidades.CredenciaisUsuario;
 import com.example.saudejausuarioservice.entidades.Usuario;
 import com.example.saudejausuarioservice.entidades.UsuarioEmailPage;
-import com.example.saudejausuarioservice.gateways.FichaPacienteGateway;
-import com.example.saudejausuarioservice.gateways.NotificacaoGateway;
-import com.example.saudejausuarioservice.gateways.SolicitacaoContaUsuarioGateway;
-import com.example.saudejausuarioservice.gateways.UsuarioGateway;
+import com.example.saudejausuarioservice.gateways.*;
 import com.example.saudejausuarioservice.mappers.CredenciaisUsuarioMapper;
 import com.example.saudejausuarioservice.mappers.UsuarioMapper;
 import com.example.saudejausuarioservice.usecases.*;
@@ -26,21 +20,24 @@ public class UsuarioController {
     private final UsuarioDataSource usuarioDataSource;
     private final SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource;
     private final FichaPacienteDataSource fichaPacienteDataSource;
+    private final PostoSaudeDataSource postoSaudeDataSource;
     private final NotificacaoDataSource notificacaoDataSource;
 
-    public UsuarioController(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, FichaPacienteDataSource fichaPacienteDataSource, NotificacaoDataSource notificacaoDataSource) {
+    public UsuarioController(UsuarioDataSource usuarioDataSource, SolicitacaoContaUsuarioDataSource solicitacaoContaUsuarioDataSource, FichaPacienteDataSource fichaPacienteDataSource, PostoSaudeDataSource postoSaudeDataSource, NotificacaoDataSource notificacaoDataSource) {
         this.usuarioDataSource = usuarioDataSource;
         this.solicitacaoContaUsuarioDataSource = solicitacaoContaUsuarioDataSource;
         this.fichaPacienteDataSource = fichaPacienteDataSource;
+        this.postoSaudeDataSource = postoSaudeDataSource;
         this.notificacaoDataSource = notificacaoDataSource;
     }
 
     public void apagarUsuario(Long id) {
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
         FichaPacienteGateway fichaPacienteGateway = new FichaPacienteGateway(fichaPacienteDataSource);
+        PostoSaudeGateway postoSaudeGateway = new PostoSaudeGateway(postoSaudeDataSource);
         NotificacaoGateway notificacaoGateway = new NotificacaoGateway(notificacaoDataSource);
 
-        ApagarUsuarioUseCase useCase = new ApagarUsuarioUseCase(usuarioGateway, fichaPacienteGateway, notificacaoGateway);
+        ApagarUsuarioUseCase useCase = new ApagarUsuarioUseCase(usuarioGateway, fichaPacienteGateway, postoSaudeGateway, notificacaoGateway);
         useCase.executar(id);
     }
 
