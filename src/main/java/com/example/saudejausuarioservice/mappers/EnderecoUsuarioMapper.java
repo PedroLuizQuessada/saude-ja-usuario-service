@@ -20,7 +20,7 @@ public class EnderecoUsuarioMapper {
     }
 
     public static EnderecoUsuario toEntidade(SolicitacaoCriacaoUsuarioPacienteEndereco solicitacaoCriacaoUsuarioPacienteEndereco) {
-        return new EnderecoUsuario(solicitacaoCriacaoUsuarioPacienteEndereco.getId(), solicitacaoCriacaoUsuarioPacienteEndereco.getEstado(), solicitacaoCriacaoUsuarioPacienteEndereco.getCidade(),
+        return new EnderecoUsuario(null, solicitacaoCriacaoUsuarioPacienteEndereco.getEstado(), solicitacaoCriacaoUsuarioPacienteEndereco.getCidade(),
                 solicitacaoCriacaoUsuarioPacienteEndereco.getBairro(), solicitacaoCriacaoUsuarioPacienteEndereco.getRua(), solicitacaoCriacaoUsuarioPacienteEndereco.getNumero(), solicitacaoCriacaoUsuarioPacienteEndereco.getComplemento(),
                 solicitacaoCriacaoUsuarioPacienteEndereco.getCep());
     }

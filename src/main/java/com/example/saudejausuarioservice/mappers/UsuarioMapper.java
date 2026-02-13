@@ -36,7 +36,7 @@ public class UsuarioMapper {
     }
 
     public static Usuario toEntidade(SolicitacaoCriacaoUsuarioPaciente solicitacaoCriacaoUsuarioPaciente) {
-        return new Usuario(solicitacaoCriacaoUsuarioPaciente.getId(), solicitacaoCriacaoUsuarioPaciente.getNome(),
+        return new Usuario(null, solicitacaoCriacaoUsuarioPaciente.getNome(),
                 solicitacaoCriacaoUsuarioPaciente.getEmail(), solicitacaoCriacaoUsuarioPaciente.getSenha(), TipoUsuarioEnum.PACIENTE,
                 Objects.isNull(solicitacaoCriacaoUsuarioPaciente.getSolicitacaoEnderecoUsuario()) ? null :
                         EnderecoUsuarioMapper.toEntidade(solicitacaoCriacaoUsuarioPaciente.getSolicitacaoEnderecoUsuario()),

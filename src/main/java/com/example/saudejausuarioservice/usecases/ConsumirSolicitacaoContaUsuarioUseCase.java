@@ -21,7 +21,7 @@ public class ConsumirSolicitacaoContaUsuarioUseCase {
         SolicitacaoContaUsuario solicitacaoContaUsuario = solicitacaoContaUsuarioGateway.getSolicitacaoContaUsuarioById(id);
         if (solicitacaoContaUsuario.isConsumida() || solicitacaoContaUsuario.getValidade().isBefore(LocalDateTime.now()))
             throw new BadArgumentException("Solicitação de conta de usuário inválida.");
-        if (Objects.equals(solicitacaoContaUsuario.getCodigo(), consumirSolicitacaoRequest.codigo()))
+        if (!Objects.equals(solicitacaoContaUsuario.getCodigo(), consumirSolicitacaoRequest.codigo()))
             throw new BadArgumentException("Código inválido.");
 
         solicitacaoContaUsuario.setConsumida(true);
